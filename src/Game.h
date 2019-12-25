@@ -9,6 +9,8 @@
 #include <SDL.h>
 #include <SDL_ttf.h>
 #include <string>
+#include <vector>
+#include "GameObject.h"
 
 enum State {
     STATE_MENU,
@@ -22,6 +24,8 @@ class Game {
     SDL_Renderer* mRenderer = nullptr;
     State mGameState = STATE_MENU;
     SDL_Event mEvent;
+
+    std::vector<GameObject*> mGameObjects;
 
     void handleEvents();
     void update();

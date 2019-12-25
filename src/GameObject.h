@@ -10,10 +10,16 @@
 #include "Vec2D.h"
 
 class GameObject {
-    Vec2D pos;
-    Vec2D vel;
-    SDL_Rect rect;
-    int speed;
+    Vec2D mPos;
+    Vec2D mVel;
+    SDL_Rect mRect;
+    SDL_Color mColor;
+    int mSpeed;
+public:
+    virtual ~GameObject() = default;
+    virtual void update() = 0;
+
+
 };
 
 

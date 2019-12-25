@@ -7,10 +7,10 @@
 
 
 class Vec2D {
-    float x;
-    float y;
+    float mX;
+    float mY;
 public:
-    Vec2D(float _x, float _y) : x(_x), y(_y) {}
+    Vec2D(float x, float y) : mX(x), mY(y) {}
 
     void add(Vec2D v);
     void sub(Vec2D v);

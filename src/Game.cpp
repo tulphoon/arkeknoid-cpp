@@ -61,7 +61,9 @@ SDL_Renderer *Game::getRenderer() const {
 }
 
 void Game::update() {
-
+    for(auto gameObject : mGameObjects) {
+        gameObject->update();
+    }
 }
 
 void Game::render() {

@@ -7,29 +7,29 @@
 #include <cmath>
 
 void Vec2D::add(Vec2D v) {
-    x = x + v.x;
-    y = y + v.y;
+    mX = mX + v.mX;
+    mY = mY + v.mY;
 }
 
 void Vec2D::sub(Vec2D v) {
-    x = x - v.x;
-    y = y - v.y;
+    mX = mX - v.mX;
+    mY = mY - v.mY;
 }
 
 void Vec2D::mult(float scalar) {
-    x = x * scalar;
-    y = y * scalar;
+    mX = mX * scalar;
+    mY = mY * scalar;
 }
 
 void Vec2D::div(float n) {
     if(n != 0) {
-        x = x / n;
-        y = y / n;
+        mX = mX / n;
+        mY = mY / n;
     }
 }
 
 float Vec2D::mag() {
-    return sqrt(x * x + y + y);
+    return sqrt(mX * mX + mY + mY);
 }
 
 void Vec2D::normalize() {
