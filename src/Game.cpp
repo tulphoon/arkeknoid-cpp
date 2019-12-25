@@ -6,19 +6,17 @@
 
 #include <SDL.h>
 
-Game::Game() {
+Game::Game(const std::string& windowTitle, const int& windowWidth, const int& windowHeight) : mWindowWidth(windowWidth), mWindowHeight(windowHeight) {
     // initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO) != 0) {
         SDL_Log("Unable to initialize SDL: %s\n", SDL_GetError());
-//        return 1;
     }
 
     // create a window
-    mWindow = SDL_CreateWindow("Window", SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, 800, 600, SDL_WINDOW_SHOWN);
+    mWindow = SDL_CreateWindow(windowTitle.c_str(), SDL_WINDOWPOS_CENTERED, SDL_WINDOWPOS_CENTERED, mWindowWidth, mWindowHeight, SDL_WINDOW_SHOWN);
 
     if(mWindow == nullptr) {
         SDL_Log("Could not create window: %s\n", SDL_GetError());
-//        return 1;
     }
 
     // create a renderer
@@ -34,18 +32,17 @@ Game::~Game() {
     SDL_DestroyWindow(mWindow);
 
     // deactivate subsystems and quit SDL
+    TTF_Quit();
     SDL_Quit();
 
 }
 
-void Game::loop() {
-
-
+void Game::run() {
     // Run game loop
     while (mGameState != STATE_EXIT) {
-        this->handleEvents();
-
-
+        handleEvents();
+        update();
+        render();
     }
 }
 
@@ -57,4 +54,18 @@ void Game::handleEvents() {
                 break;
         }
     }
+}
+
+SDL_Renderer *Game::getRenderer() const {
+    return mRenderer;
+}
+
+void Game::update() {
+
+}
+
+void Game::render() {
+    SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
+    SDL_RenderClear(mRenderer);
+    SDL_RenderPresent(mRenderer);
 }

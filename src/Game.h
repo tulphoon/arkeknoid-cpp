@@ -6,14 +6,9 @@
 #define ARKEKNOID_CPP_GAME_H
 
 
-#include <SDL_video.h>
-#include <SDL_render.h>
-#include <SDL_events.h>
-
-enum Side {
-    RED,
-    BLUE
-};
+#include <SDL.h>
+#include <SDL_ttf.h>
+#include <string>
 
 enum State {
     STATE_MENU,
@@ -23,19 +18,23 @@ enum State {
 
 class Game {
     SDL_Window* mWindow = nullptr;
+    int mWindowWidth, mWindowHeight;
     SDL_Renderer* mRenderer = nullptr;
-    int mTurnNumber = 0;
     State mGameState = STATE_MENU;
-    Side mSide = RED;
     SDL_Event mEvent;
 
     void handleEvents();
+    void update();
+    void render();
+
 public:
-    Game();
+    Game(const std::string& windowTitle, const int& windowWidth, const int& windowHeight);
 
     virtual ~Game();
 
-    void loop();
+    void run();
+
+    SDL_Renderer *getRenderer() const;
 };
 
 
