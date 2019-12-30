@@ -15,6 +15,7 @@
 enum State {
     STATE_MENU,
     STATE_PLAYING,
+    STATE_PAUSE,
     STATE_EXIT
 };
 
@@ -28,13 +29,13 @@ class Game {
     std::vector<GameObject*> mGameObjects;
 
     void handleEvents();
-    void update();
+    void update(const double &elapsed);
     void render();
 
 public:
     Game(const std::string& windowTitle, const int& windowWidth, const int& windowHeight);
 
-    virtual ~Game();
+    ~Game();
 
     void run();
 

@@ -6,34 +6,13 @@
 
 #include <cmath>
 
-void Vec2D::add(Vec2D v) {
-    mX = mX + v.mX;
-    mY = mY + v.mY;
-}
-
-void Vec2D::sub(Vec2D v) {
-    mX = mX - v.mX;
-    mY = mY - v.mY;
-}
-
-void Vec2D::mult(float scalar) {
-    mX = mX * scalar;
-    mY = mY * scalar;
-}
-
-void Vec2D::div(float n) {
-    if(n != 0) {
-        mX = mX / n;
-        mY = mY / n;
-    }
-}
-
-float Vec2D::mag() {
+float Vec2D::magnitude() {
     return sqrt(mX * mX + mY + mY);
 }
 
-void Vec2D::normalize() {
-    div(mag());
+Vec2D Vec2D::normalized() {
+    float m = magnitude();
+    return *(this)/m;
 }
 
 float Vec2D::getX() const {
@@ -74,11 +53,21 @@ bool Vec2D::operator>=(const Vec2D &rhs) const {
 }
 
 Vec2D &Vec2D::operator+=(const Vec2D &rhs) {
-    this->add(rhs);
+    mX += rhs.mX;
+    mY += rhs.mY;
     return *this;
 }
 
 Vec2D operator+(Vec2D lhs, const Vec2D &rhs) {
     lhs += rhs;
     return lhs;
+}
+
+Vec2D Vec2D::operator*(const double &rhs) {
+    Vec2D tmp {static_cast<float>(this->mX * rhs), static_cast<float>(this->mY * rhs)};
+    return tmp;
+}
+
+Vec2D Vec2D::operator/(const float &rhs) {
+    return Vec2D(mX / rhs, mY / rhs);
 }

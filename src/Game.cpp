@@ -3,6 +3,7 @@
 //
 
 #include "Game.h"
+#include "Player.h"
 
 #include <SDL.h>
 
@@ -20,7 +21,7 @@ Game::Game(const std::string& windowTitle, const int& windowWidth, const int& wi
     }
 
     // create a renderer
-    mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED|SDL_RENDERER_PRESENTVSYNC);
+    mRenderer = SDL_CreateRenderer(mWindow, -1, SDL_RENDERER_ACCELERATED);
 
     if(mRenderer == nullptr) {
         SDL_Log("Could not create renderer: %s\n", SDL_GetError());
@@ -28,21 +29,37 @@ Game::Game(const std::string& windowTitle, const int& windowWidth, const int& wi
 }
 
 Game::~Game() {
+    SDL_DestroyRenderer(mRenderer);
+
     // destroy window
     SDL_DestroyWindow(mWindow);
 
     // deactivate subsystems and quit SDL
-    TTF_Quit();
     SDL_Quit();
 
 }
 
 void Game::run() {
+    Player player;
+    player.setRect({0, 0, 200, 100});
+    player.setVel({10, 10});
+    player.setColor({255, 0, 0, 255});
+
+    mGameObjects.push_back(&player);
+
+    unsigned int lastTime = SDL_GetTicks();
+
     // Run game loop
     while (mGameState != STATE_EXIT) {
+        unsigned int current = SDL_GetTicks();
+        double elapsed = current - lastTime;
+        elapsed = elapsed / 1000;
+
         handleEvents();
-        update();
+        update(elapsed);
         render();
+
+        lastTime = current;
     }
 }
 
@@ -52,6 +69,15 @@ void Game::handleEvents() {
             case SDL_QUIT:
                 mGameState = STATE_EXIT;
                 break;
+
+            case SDL_KEYDOWN:
+                switch(mEvent.key.keysym.sym) {
+                    case SDLK_SPACE:
+                        if(mGameState == STATE_MENU) {
+                            mGameState = STATE_PLAYING;
+                        }
+                        break;
+                }
         }
     }
 }
@@ -60,14 +86,19 @@ SDL_Renderer *Game::getRenderer() const {
     return mRenderer;
 }
 
-void Game::update() {
+void Game::update(const double &elapsed) {
     for(auto gameObject : mGameObjects) {
-        gameObject->update();
+        gameObject->update(elapsed);
     }
 }
 
 void Game::render() {
     SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
     SDL_RenderClear(mRenderer);
+
+    for(auto gameObject : mGameObjects) {
+        gameObject->render(mRenderer);
+    }
+
     SDL_RenderPresent(mRenderer);
 }

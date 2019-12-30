@@ -17,6 +17,10 @@ public:
 
     friend Vec2D operator+(Vec2D lhs, const Vec2D &rhs);
 
+    Vec2D operator*(const double &rhs);
+
+    Vec2D operator/(const float &rhs);
+
     bool operator==(const Vec2D &rhs) const;
 
     bool operator!=(const Vec2D &rhs) const;
@@ -29,12 +33,8 @@ public:
 
     bool operator>=(const Vec2D &rhs) const;
 
-    void add(Vec2D v);
-    void sub(Vec2D v);
-    void mult(float scalar);
-    void div(float n);
-    float mag();
-    void normalize();
+    float magnitude();
+    Vec2D normalized();
 
     float getX() const;
 

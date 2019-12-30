@@ -16,7 +16,7 @@ include_directories(${SDL2_INCLUDE_DIR}
         ${SDL2_MIXER_INCLUDE_DIR}
         ${SDL2_TTF_INCLUDE_DIR})
 
-add_executable(arkeknoid_cpp src/main.cpp src/Game.cpp src/Game.h src/GameObject.cpp src/GameObject.h src/Vec2D.cpp src/Vec2D.h)
+add_executable(arkeknoid_cpp src/main.cpp src/Game.cpp src/Game.h src/GameObject.cpp src/GameObject.h src/Vec2D.cpp src/Vec2D.h src/Player.cpp src/Player.h src/Command.cpp src/Command.h)
 
 target_link_libraries(arkeknoid_cpp ${SDL2_LIBRARY}
         ${SDL2_IMAGE_LIBRARIES}
