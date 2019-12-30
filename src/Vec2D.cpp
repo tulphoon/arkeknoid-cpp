@@ -35,3 +35,50 @@ float Vec2D::mag() {
 void Vec2D::normalize() {
     div(mag());
 }
+
+float Vec2D::getX() const {
+    return mX;
+}
+
+float Vec2D::getY() const {
+    return mY;
+}
+
+bool Vec2D::operator==(const Vec2D &rhs) const {
+    return mX == rhs.mX &&
+           mY == rhs.mY;
+}
+
+bool Vec2D::operator!=(const Vec2D &rhs) const {
+    return !(rhs == *this);
+}
+
+bool Vec2D::operator<(const Vec2D &rhs) const {
+    if (mX < rhs.mX)
+        return true;
+    if (rhs.mX < mX)
+        return false;
+    return mY < rhs.mY;
+}
+
+bool Vec2D::operator>(const Vec2D &rhs) const {
+    return rhs < *this;
+}
+
+bool Vec2D::operator<=(const Vec2D &rhs) const {
+    return !(rhs < *this);
+}
+
+bool Vec2D::operator>=(const Vec2D &rhs) const {
+    return !(*this < rhs);
+}
+
+Vec2D &Vec2D::operator+=(const Vec2D &rhs) {
+    this->add(rhs);
+    return *this;
+}
+
+Vec2D operator+(Vec2D lhs, const Vec2D &rhs) {
+    lhs += rhs;
+    return lhs;
+}
