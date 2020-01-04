@@ -47,6 +47,8 @@ public:
     int getWindowWidth() const;
 
     int getWindowHeight() const;
+
+    void physics();
 };
 
 

@@ -67,6 +67,7 @@ void Game::run() {
 
         handleEvents();
         update(elapsed);
+        physics();
         render();
 
         lastTime = current;
@@ -119,4 +120,16 @@ int Game::getWindowWidth() const {
 
 int Game::getWindowHeight() const {
     return mWindowHeight;
+}
+
+void Game::physics() {
+    for (int i = 0; i < mGameObjects.size(); ++i) {
+        auto &A = mGameObjects[i];
+        for (int j = i+1; j < mGameObjects.size(); ++j) {
+            auto &B = mGameObjects[j];
+            if(A->isColliding(B)) {
+                SDL_Log("Collision DETECTED\n");
+            }
+        }
+    }
 }

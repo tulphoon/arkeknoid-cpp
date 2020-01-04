@@ -46,6 +46,7 @@ public:
     int width();
     int height();
 
+    bool isColliding(GameObject *obj);
 };
 
 

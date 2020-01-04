@@ -64,3 +64,10 @@ int GameObject::width() {
 int GameObject::height() {
     return mRect.h;
 }
+
+bool GameObject::isColliding(GameObject *obj) {
+    if (right() < obj->left() || left() > obj->right()) return false;
+    if (bottom() < obj->top() || top() > obj->bottom()) return false;
+
+    return true;
+}
