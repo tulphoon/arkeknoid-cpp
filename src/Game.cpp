@@ -4,6 +4,7 @@
 
 #include "Game.h"
 #include "Player.h"
+#include "Ball.h"
 
 #include <SDL.h>
 
@@ -46,6 +47,14 @@ void Game::run() {
     player.setVel({500, 0});
     player.setColor({255, 0, 0, 255});
 
+    Ball ball(this);
+    ball.setRect({0, 0, 10, 10});
+    ball.setPos({200, 500});
+    ball.setVel({400, -200});
+    ball.setColor({255, 255, 255, 255});
+
+
+    mGameObjects.push_back(&ball);
     mGameObjects.push_back(&player);
 
     unsigned int lastTime = SDL_GetTicks();
