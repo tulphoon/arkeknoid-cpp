@@ -7,6 +7,7 @@
 
 
 #include "GameObject.h"
+#include "Game.h"
 
 enum PlayerState {
     PLAYER_STATIONARY,
@@ -14,7 +15,10 @@ enum PlayerState {
 };
 
 class Player : public GameObject {
+    Game *game;
 public:
+    Player(Game *game) : game(game) {}
+
     void update(const double &elapsed);
 };
 

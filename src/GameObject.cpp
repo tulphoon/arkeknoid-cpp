@@ -40,3 +40,27 @@ const SDL_Color &GameObject::getColor() const {
 void GameObject::setColor(const SDL_Color &mColor) {
     GameObject::mColor = mColor;
 }
+
+float GameObject::left() {
+    return mPos.getX();
+}
+
+float GameObject::right() {
+    return left() + mRect.w;
+}
+
+float GameObject::top() {
+    return mPos.getY();
+}
+
+float GameObject::bottom() {
+    return top() + mRect.h;
+}
+
+int GameObject::width() {
+    return mRect.w;
+}
+
+int GameObject::height() {
+    return mRect.h;
+}

@@ -17,6 +17,8 @@ public:
 
     friend Vec2D operator+(Vec2D lhs, const Vec2D &rhs);
 
+    Vec2D &operator-=(const Vec2D &rhs);
+
     Vec2D operator*(const double &rhs);
 
     Vec2D operator/(const float &rhs);
@@ -39,6 +41,10 @@ public:
     float getX() const;
 
     float getY() const;
+
+    void setX(float mX);
+
+    void setY(float mY);
 };
 
 

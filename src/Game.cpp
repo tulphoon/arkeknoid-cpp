@@ -40,9 +40,10 @@ Game::~Game() {
 }
 
 void Game::run() {
-    Player player;
-    player.setRect({0, 0, 200, 100});
-    player.setVel({10, 10});
+    Player player(this);
+    player.setRect({0, 0, 200, 20});
+    player.setPos({300, 550});
+    player.setVel({500, 0});
     player.setColor({255, 0, 0, 255});
 
     mGameObjects.push_back(&player);
@@ -71,13 +72,12 @@ void Game::handleEvents() {
                 break;
 
             case SDL_KEYDOWN:
-                switch(mEvent.key.keysym.sym) {
-                    case SDLK_SPACE:
-                        if(mGameState == STATE_MENU) {
-                            mGameState = STATE_PLAYING;
-                        }
-                        break;
-                }
+                keyPressed[mEvent.key.keysym.scancode] = true;
+                break;
+
+            case SDL_KEYUP:
+                keyPressed[mEvent.key.keysym.scancode] = false;
+                break;
         }
     }
 }
@@ -87,9 +87,10 @@ SDL_Renderer *Game::getRenderer() const {
 }
 
 void Game::update(const double &elapsed) {
-    for(auto gameObject : mGameObjects) {
-        gameObject->update(elapsed);
-    }
+        for(auto gameObject : mGameObjects) {
+            gameObject->update(elapsed);
+        }
+
 }
 
 void Game::render() {
@@ -101,4 +102,12 @@ void Game::render() {
     }
 
     SDL_RenderPresent(mRenderer);
+}
+
+int Game::getWindowWidth() const {
+    return mWindowWidth;
+}
+
+int Game::getWindowHeight() const {
+    return mWindowHeight;
 }

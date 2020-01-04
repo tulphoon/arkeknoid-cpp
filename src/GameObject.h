@@ -8,6 +8,8 @@
 
 #include <SDL_rect.h>
 #include <SDL_render.h>
+#include <SDL_scancode.h>
+#include <unordered_map>
 #include "Vec2D.h"
 
 class GameObject {
@@ -36,6 +38,14 @@ public:
     const SDL_Color &getColor() const;
 
     void setColor(const SDL_Color &mColor);
+
+    float left();
+    float right();
+    float top();
+    float bottom();
+    int width();
+    int height();
+
 };
 
 

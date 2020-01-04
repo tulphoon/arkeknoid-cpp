@@ -10,6 +10,7 @@
 #include <SDL_ttf.h>
 #include <string>
 #include <vector>
+#include <unordered_map>
 #include "GameObject.h"
 
 enum State {
@@ -24,9 +25,8 @@ class Game {
     int mWindowWidth, mWindowHeight;
     SDL_Renderer* mRenderer = nullptr;
     State mGameState = STATE_MENU;
-    SDL_Event mEvent;
 
-    std::vector<GameObject*> mGameObjects;
+    SDL_Event mEvent;
 
     void handleEvents();
     void update(const double &elapsed);
@@ -37,9 +37,16 @@ public:
 
     ~Game();
 
+    std::unordered_map<SDL_Scancode, bool> keyPressed;
+    std::vector<GameObject*> mGameObjects;
+
     void run();
 
     SDL_Renderer *getRenderer() const;
+
+    int getWindowWidth() const;
+
+    int getWindowHeight() const;
 };
 
 
