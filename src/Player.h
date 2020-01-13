@@ -9,17 +9,14 @@
 #include "GameObject.h"
 #include "Game.h"
 
-enum PlayerState {
-    PLAYER_STATIONARY,
-    PLAYER_MOVING
-};
-
 class Player : public GameObject {
     Game *game;
 public:
     Player(Game *game) : game(game) {}
 
-    void update(const double &elapsed);
+    void handleCollision(GameObject *obj) override;
+
+    void update(const double &elapsed) override;
 };
 
 

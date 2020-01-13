@@ -27,3 +27,7 @@ void Player::update(const double &elapsed) {
     mRect.x = mPos.getX();
     mRect.y = mPos.getY();
 }
+
+void Player::handleCollision(GameObject *obj) {
+
+}

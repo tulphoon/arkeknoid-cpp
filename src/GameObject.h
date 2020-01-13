@@ -12,8 +12,16 @@
 #include <unordered_map>
 #include "Vec2D.h"
 
+enum Type {
+    TYPE_PLAYER,
+    TYPE_BALL,
+    TYPE_BLOCK
+};
+
 class GameObject {
 protected:
+
+
     Vec2D mPos;
     Vec2D mVel;
     SDL_Rect mRect;
@@ -22,6 +30,7 @@ public:
     virtual ~GameObject() = default;
     virtual void update(const double &elapsed) = 0;
     virtual void render(SDL_Renderer* renderer);
+    virtual void handleCollision(GameObject *obj) = 0;
 
     const Vec2D &getPos() const;
 

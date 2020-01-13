@@ -30,6 +30,7 @@ Game::Game(const std::string& windowTitle, const int& windowWidth, const int& wi
 }
 
 Game::~Game() {
+    // Destroy renderer
     SDL_DestroyRenderer(mRenderer);
 
     // destroy window
@@ -41,19 +42,21 @@ Game::~Game() {
 }
 
 void Game::run() {
+    // Create player and set attributes
     Player player(this);
-    player.setRect({0, 0, 200, 20});
+    player.setRect({0, 0, 100, 20});
     player.setPos({300, 550});
     player.setVel({500, 0});
     player.setColor({255, 0, 0, 255});
 
+    // Create ball and set attributes
     Ball ball(this);
     ball.setRect({0, 0, 10, 10});
-    ball.setPos({200, 500});
-    ball.setVel({400, -200});
+    ball.setPos({100, 400});
+    ball.setVel({100, -400});
     ball.setColor({255, 255, 255, 255});
 
-
+    // Add ball and player to game objects vector
     mGameObjects.push_back(&ball);
     mGameObjects.push_back(&player);
 
@@ -97,6 +100,7 @@ SDL_Renderer *Game::getRenderer() const {
 }
 
 void Game::update(const double &elapsed) {
+        // Run each object's update method
         for(auto gameObject : mGameObjects) {
             gameObject->update(elapsed);
         }
@@ -123,13 +127,19 @@ int Game::getWindowHeight() const {
 }
 
 void Game::physics() {
+    // Check for collisions between objects
     for (int i = 0; i < mGameObjects.size(); ++i) {
         auto &A = mGameObjects[i];
         for (int j = i+1; j < mGameObjects.size(); ++j) {
             auto &B = mGameObjects[j];
             if(A->isColliding(B)) {
-                SDL_Log("Collision DETECTED\n");
+                A->handleCollision(B);
+                B->handleCollision(A);
             }
         }
     }
+}
+
+void Game::setGameState(State mGameState) {
+    Game::mGameState = mGameState;
 }

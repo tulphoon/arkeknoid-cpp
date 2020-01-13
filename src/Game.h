@@ -14,9 +14,7 @@
 #include "GameObject.h"
 
 enum State {
-    STATE_MENU,
     STATE_PLAYING,
-    STATE_PAUSE,
     STATE_EXIT
 };
 
@@ -24,7 +22,7 @@ class Game {
     SDL_Window* mWindow = nullptr;
     int mWindowWidth, mWindowHeight;
     SDL_Renderer* mRenderer = nullptr;
-    State mGameState = STATE_MENU;
+    State mGameState = STATE_PLAYING;
 
     SDL_Event mEvent;
 
@@ -49,6 +47,8 @@ public:
     int getWindowHeight() const;
 
     void physics();
+
+    void setGameState(State mGameState);
 };
 
 
