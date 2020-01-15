@@ -16,6 +16,7 @@ enum BallState {
 
 /**
  * @class Ball
+ * @brief Represents the ball
  */
 
 class Ball : public GameObject {

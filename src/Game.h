@@ -20,6 +20,7 @@ enum State {
 
 /**
  * @class Game
+ * @brief Represents the game
  */
 
 class Game {
@@ -33,7 +34,9 @@ class Game {
     /// Handle input from user
     void handleEvents();
 
-    /// Update the game world
+    /**
+     * @param elapsed time elapsed since the last frame
+     */
     void update(const double &elapsed);
 
     /// Render the game objects on the screen

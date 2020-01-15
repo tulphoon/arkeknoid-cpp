@@ -11,6 +11,7 @@
 
 /**
  * @class Player
+ * @brief Represents the player
  */
 
 class Player : public GameObject {
