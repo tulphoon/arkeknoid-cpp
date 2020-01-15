@@ -5,6 +5,10 @@
 #ifndef ARKEKNOID_CPP_VEC2D_H
 #define ARKEKNOID_CPP_VEC2D_H
 
+/**
+ * @class Vec2D
+ * @brief Represents a 2D vector with floating point coordinates
+ */
 
 class Vec2D {
     float mX;
@@ -35,7 +39,10 @@ public:
 
     bool operator>=(const Vec2D &rhs) const;
 
+    /// Return magnitude of the vector
     float magnitude();
+
+    /// Return a normalized copy of the vector
     Vec2D normalized();
 
     float getX() const;

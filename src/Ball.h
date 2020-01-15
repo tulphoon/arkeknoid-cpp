@@ -14,6 +14,10 @@ enum BallState {
     BALL_MOVING
 };
 
+/**
+ * @class Ball
+ */
+
 class Ball : public GameObject {
     Game *game;
     BallState mBallState = BALL_MOVING;

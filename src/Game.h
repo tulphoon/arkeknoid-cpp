@@ -18,6 +18,10 @@ enum State {
     STATE_EXIT
 };
 
+/**
+ * @class Game
+ */
+
 class Game {
     SDL_Window* mWindow = nullptr;
     int mWindowWidth, mWindowHeight;
@@ -26,11 +30,17 @@ class Game {
 
     SDL_Event mEvent;
 
+    /// Handle input from user
     void handleEvents();
+
+    /// Update the game world
     void update(const double &elapsed);
+
+    /// Render the game objects on the screen
     void render();
 
 public:
+    /// Create a Game with a given window title, width and height
     Game(const std::string& windowTitle, const int& windowWidth, const int& windowHeight);
 
     ~Game();
@@ -38,6 +48,7 @@ public:
     std::unordered_map<SDL_Scancode, bool> keyPressed;
     std::vector<GameObject*> mGameObjects;
 
+    /// Start the game loop
     void run();
 
     SDL_Renderer *getRenderer() const;
@@ -46,6 +57,7 @@ public:
 
     int getWindowHeight() const;
 
+    /// Check for collision between objects
     void physics();
 
     void setGameState(State mGameState);

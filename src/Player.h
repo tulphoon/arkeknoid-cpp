@@ -9,6 +9,10 @@
 #include "GameObject.h"
 #include "Game.h"
 
+/**
+ * @class Player
+ */
+
 class Player : public GameObject {
     Game *game;
 public:

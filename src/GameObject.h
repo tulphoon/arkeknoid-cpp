@@ -18,10 +18,13 @@ enum Type {
     TYPE_BLOCK
 };
 
+/**
+ * @class GameObject
+ * @brief An abstract class which is a base for all objects in the game
+ */
+
 class GameObject {
 protected:
-
-
     Vec2D mPos;
     Vec2D mVel;
     SDL_Rect mRect;
@@ -30,6 +33,8 @@ public:
     virtual ~GameObject() = default;
     virtual void update(const double &elapsed) = 0;
     virtual void render(SDL_Renderer* renderer);
+
+    /// Handle collision between the game objects and another game object
     virtual void handleCollision(GameObject *obj) = 0;
 
     const Vec2D &getPos() const;
@@ -48,13 +53,25 @@ public:
 
     void setColor(const SDL_Color &mColor);
 
+    /// Return x coordinate for left side of the object
     float left();
+
+    /// Return x coordinate for right side of the object
     float right();
+
+    /// Return y coordinate for top side of the object
     float top();
+
+    /// Return y coordinate for bottom side of the object
     float bottom();
+
+    /// Return object's width
     int width();
+
+    /// Return object's height
     int height();
 
+    /// Checks for collision between objects
     bool isColliding(GameObject *obj);
 };
 
