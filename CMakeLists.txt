@@ -23,3 +23,4 @@ target_link_libraries(arkeknoid_cpp ${SDL2_LIBRARY}
         ${SDL2_MIXER_LIBRARIES}
         ${SDL2_TTF_LIBRARIES})
 
+file(COPY assets DESTINATION ${CMAKE_BINARY_DIR})

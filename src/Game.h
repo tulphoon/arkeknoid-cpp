@@ -15,6 +15,7 @@
 
 enum State {
     STATE_PLAYING,
+    STATE_GAMEOVER,
     STATE_EXIT
 };
 
@@ -28,6 +29,9 @@ class Game {
     int mWindowWidth, mWindowHeight;
     SDL_Renderer* mRenderer = nullptr;
     State mGameState = STATE_PLAYING;
+    double mScore = 0;
+    double mCurrentBestScore;
+    TTF_Font *font;
 
     SDL_Event mEvent;
 
@@ -64,6 +68,10 @@ public:
     void physics();
 
     void setGameState(State mGameState);
+
+    bool readScoreFromFile();
+
+    bool saveScoreToFile();
 };
 
 

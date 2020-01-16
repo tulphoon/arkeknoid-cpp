@@ -8,8 +8,7 @@ void Ball::update(const double &elapsed) {
 
     switch(mBallState) {
         case BALL_LOSE:
-            std::cout << "YOU LOST! Thanks for playing!" << std::endl;
-            game->setGameState(STATE_EXIT);
+            game->setGameState(STATE_GAMEOVER);
             break;
         case BALL_MOVING:
             mPos += mVel * elapsed;

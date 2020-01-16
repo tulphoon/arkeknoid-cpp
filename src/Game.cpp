@@ -7,11 +7,17 @@
 #include "Ball.h"
 
 #include <SDL.h>
+#include <fstream>
 
 Game::Game(const std::string& windowTitle, const int& windowWidth, const int& windowHeight) : mWindowWidth(windowWidth), mWindowHeight(windowHeight) {
     // initialize SDL
     if (SDL_Init(SDL_INIT_VIDEO|SDL_INIT_AUDIO) != 0) {
         SDL_Log("Unable to initialize SDL: %s\n", SDL_GetError());
+    }
+
+    // initialize TTF
+    if(TTF_Init() != 0) {
+        SDL_Log("Unable to initialize SDL_ttf: %s\n", TTF_GetError());
     }
 
     // create a window
@@ -30,6 +36,12 @@ Game::Game(const std::string& windowTitle, const int& windowWidth, const int& wi
 }
 
 Game::~Game() {
+    saveScoreToFile();
+
+    // free the global font
+    TTF_CloseFont(font);
+    font = nullptr;
+
     // Destroy renderer
     SDL_DestroyRenderer(mRenderer);
 
@@ -37,11 +49,22 @@ Game::~Game() {
     SDL_DestroyWindow(mWindow);
 
     // deactivate subsystems and quit SDL
+    TTF_Quit();
     SDL_Quit();
 
 }
 
 void Game::run() {
+    if(!readScoreFromFile()) {
+        mCurrentBestScore = 0;
+    }
+
+    font = TTF_OpenFont("assets/fonts/Lato-Regular.ttf", 22);
+    if(!font) {
+        SDL_Log("TTF_OpenFont: %s\n", TTF_GetError());
+        return;
+    }
+
     // Create player and set attributes
     Player player(this);
     player.setRect({0, 0, 100, 20});
@@ -100,6 +123,14 @@ SDL_Renderer *Game::getRenderer() const {
 }
 
 void Game::update(const double &elapsed) {
+        // Update score
+        mScore += elapsed;
+
+        // Update best score
+        if(mScore > mCurrentBestScore) {
+            mCurrentBestScore = mScore;
+        }
+
         // Run each object's update method
         for(auto gameObject : mGameObjects) {
             gameObject->update(elapsed);
@@ -115,7 +146,30 @@ void Game::render() {
         gameObject->render(mRenderer);
     }
 
+    // Create rectangle and color for the scoreText
+    SDL_Color color = {255, 255, 255};
+    SDL_Rect dstrect {5, 0, 50, 50};
+
+    auto scoreText{("Score: " + std::to_string(static_cast<int>(mScore))).c_str()};
+
+    // Get dimensions needed to display the text nicely
+    if(TTF_SizeText(font, scoreText, &dstrect.w, &dstrect.h)) {
+        SDL_Log("TTF_SizeText: %s\n", TTF_GetError());
+        mGameState = STATE_EXIT;
+    }
+
+    // Create texture from surface
+    SDL_Surface * surface = TTF_RenderText_Blended(font, scoreText, color);
+    SDL_Texture * texture = SDL_CreateTextureFromSurface(mRenderer, surface);
+
+    // Render texture on screen
+    SDL_RenderCopy(mRenderer, texture, NULL, &dstrect);
+
     SDL_RenderPresent(mRenderer);
+
+    // Free memory
+    SDL_DestroyTexture(texture);
+    SDL_FreeSurface(surface);
 }
 
 int Game::getWindowWidth() const {
@@ -142,4 +196,34 @@ void Game::physics() {
 
 void Game::setGameState(State mGameState) {
     Game::mGameState = mGameState;
+}
+
+bool Game::saveScoreToFile() {
+    std::ofstream scoreFile("scoreBest.txt");
+    if(scoreFile.is_open()) {
+        scoreFile << std::to_string(mCurrentBestScore);
+
+        scoreFile.close();
+
+        return true;
+    } else std::cout << "Unable to open scoreBest.txt file" << std::endl;
+
+    return false;
+}
+
+bool Game::readScoreFromFile() {
+    std::string line;
+
+    std::ifstream scoreFile("scoreBest.txt");
+    if(scoreFile.is_open()) {
+        getline(scoreFile, line);
+
+        mCurrentBestScore = std::stod(line);
+
+        scoreFile.close();
+
+        return true;
+    } else std::cout << "Unable to open scoreBest.txt file" << std::endl;
+
+    return false;
 }
