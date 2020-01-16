@@ -1,6 +1,6 @@
 # Project exclude paths
 /cmake-build-debug/
-
+/docs
 
 # Created by https://www.gitignore.io/api/c++,cmake,clion,macos
 # Edit at https://www.gitignore.io/?templates=c++,cmake,clion,macos
