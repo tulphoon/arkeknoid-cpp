@@ -66,6 +66,7 @@ int GameObject::height() {
 }
 
 bool GameObject::isColliding(GameObject *obj) {
+    if(!obj->mCollidable) return false;
     if (right() < obj->left() || left() > obj->right()) return false;
     if (bottom() < obj->top() || top() > obj->bottom()) return false;
 

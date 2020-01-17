@@ -17,7 +17,7 @@
 class Player : public GameObject {
     Game *game;
 public:
-    Player(Game *game) : game(game) {}
+    Player(Game *game) : game(game) {mCollidable = true;}
 
     void handleCollision(GameObject *obj) override;
 

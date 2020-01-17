@@ -30,6 +30,8 @@ class Game {
     SDL_Renderer* mRenderer = nullptr;
     State mGameState = STATE_PLAYING;
     double mScore = 0;
+
+private:
     double mCurrentBestScore;
     TTF_Font *font;
 
@@ -72,6 +74,8 @@ public:
     bool readScoreFromFile();
 
     bool saveScoreToFile();
+
+    double getScore() const;
 };
 
 

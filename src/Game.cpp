@@ -5,6 +5,7 @@
 #include "Game.h"
 #include "Player.h"
 #include "Ball.h"
+#include "Text.h"
 
 #include <SDL.h>
 #include <fstream>
@@ -55,15 +56,33 @@ Game::~Game() {
 }
 
 void Game::run() {
-    if(!readScoreFromFile()) {
-        mCurrentBestScore = 0;
-    }
-
     font = TTF_OpenFont("assets/fonts/Lato-Regular.ttf", 22);
     if(!font) {
         SDL_Log("TTF_OpenFont: %s\n", TTF_GetError());
         return;
     }
+
+    if(!readScoreFromFile()) {
+        mCurrentBestScore = 0;
+    }
+
+    // Create score text and set attributes
+    Text score(this, "Score: " + std::to_string(static_cast<int>(mScore)), font);
+    score.setRect({5, 0, 0, 0});
+    score.setColor({255, 255, 255});
+
+    // Create bestScore text and set attributes
+    Text bestScore(this, "Current Best Score: " + std::to_string(static_cast<int>(mCurrentBestScore)), font);
+    bestScore.setRect({mWindowWidth / 2 - 100, mWindowHeight / 2});
+    bestScore.setColor({61, 135, 255});
+
+    Text yourScore(this, "Your score: " + std::to_string(static_cast<int>(mScore)), font);
+    yourScore.setRect({bestScore.getRect().x, bestScore.getRect().y + 50});
+    yourScore.setColor({68, 255, 0});
+
+    Text instruction(this, "Exit the game, by closing the window", font);
+    instruction.setRect({mWindowWidth / 2 - 150, mWindowHeight - 100});
+    instruction.setColor({116, 61, 255});
 
     // Create player and set attributes
     Player player(this);
@@ -82,21 +101,42 @@ void Game::run() {
     // Add ball and player to game objects vector
     mGameObjects.push_back(&ball);
     mGameObjects.push_back(&player);
+    mGameObjects.push_back(&score);
 
     unsigned int lastTime = SDL_GetTicks();
 
     // Run game loop
     while (mGameState != STATE_EXIT) {
-        unsigned int current = SDL_GetTicks();
-        double elapsed = current - lastTime;
-        elapsed = elapsed / 1000;
+        switch (mGameState) {
+            case STATE_EXIT:
+                break;
 
-        handleEvents();
-        update(elapsed);
-        physics();
-        render();
+            case STATE_GAMEOVER:
+                handleEvents();
 
-        lastTime = current;
+                mGameObjects.clear();
+                mGameObjects.push_back(&bestScore);
+                mGameObjects.push_back(&yourScore);
+                mGameObjects.push_back(&instruction);
+                render();
+                break;
+
+            case STATE_PLAYING:
+                unsigned int current = SDL_GetTicks();
+                double elapsed = current - lastTime;
+                elapsed = elapsed / 1000;
+
+                handleEvents();
+                update(elapsed);
+                score.setString("Score: " + std::to_string(static_cast<int>(mScore)));
+                bestScore.setString("Current Best Score: " + std::to_string(static_cast<int>(mCurrentBestScore)));
+                yourScore.setString("Your score: " + std::to_string(static_cast<int>(mScore)));
+                physics();
+                render();
+
+                lastTime = current;
+                break;
+        }
     }
 }
 
@@ -146,30 +186,7 @@ void Game::render() {
         gameObject->render(mRenderer);
     }
 
-    // Create rectangle and color for the scoreText
-    SDL_Color color = {255, 255, 255};
-    SDL_Rect dstrect {5, 0, 50, 50};
-
-    auto scoreText{("Score: " + std::to_string(static_cast<int>(mScore))).c_str()};
-
-    // Get dimensions needed to display the text nicely
-    if(TTF_SizeText(font, scoreText, &dstrect.w, &dstrect.h)) {
-        SDL_Log("TTF_SizeText: %s\n", TTF_GetError());
-        mGameState = STATE_EXIT;
-    }
-
-    // Create texture from surface
-    SDL_Surface * surface = TTF_RenderText_Blended(font, scoreText, color);
-    SDL_Texture * texture = SDL_CreateTextureFromSurface(mRenderer, surface);
-
-    // Render texture on screen
-    SDL_RenderCopy(mRenderer, texture, NULL, &dstrect);
-
     SDL_RenderPresent(mRenderer);
-
-    // Free memory
-    SDL_DestroyTexture(texture);
-    SDL_FreeSurface(surface);
 }
 
 int Game::getWindowWidth() const {
@@ -226,4 +243,8 @@ bool Game::readScoreFromFile() {
     } else std::cout << "Unable to open scoreBest.txt file" << std::endl;
 
     return false;
+}
+
+double Game::getScore() const {
+    return mScore;
 }

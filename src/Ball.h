@@ -23,7 +23,7 @@ class Ball : public GameObject {
     Game *game;
     BallState mBallState = BALL_MOVING;
 public:
-    Ball(Game *game) : game(game) {}
+    Ball(Game *game) : game(game) {mCollidable = true;}
 
     void update(const double &elapsed) override;
 

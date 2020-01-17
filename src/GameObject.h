@@ -29,6 +29,7 @@ protected:
     Vec2D mVel;
     SDL_Rect mRect;
     SDL_Color mColor;
+    bool mCollidable;
 public:
     virtual ~GameObject() = default;
     virtual void update(const double &elapsed) = 0;
