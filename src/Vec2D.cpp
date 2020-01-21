@@ -6,13 +6,14 @@
 
 #include <cmath>
 
-float Vec2D::magnitude() {
-    return sqrt(mX * mX + mY + mY);
+float Vec2D::magnitude() const {
+    return sqrt(mX * mX + mY * mY);
 }
 
-Vec2D Vec2D::normalized() {
+Vec2D Vec2D::normalized() const {
     float m = magnitude();
-    return *(this)/m;
+    Vec2D tmp(this->getX()/m, this->getY()/m);
+    return tmp;
 }
 
 float Vec2D::getX() const {

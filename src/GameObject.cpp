@@ -17,7 +17,7 @@ void GameObject::setPos(const Vec2D &mPos) {
     GameObject::mPos = mPos;
 }
 
-const Vec2D &GameObject::getVel() const {
+const Vec2D GameObject::getVel() const {
     return mVel;
 }
 

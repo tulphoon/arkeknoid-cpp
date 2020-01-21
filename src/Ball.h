@@ -22,12 +22,17 @@ enum BallState {
 class Ball : public GameObject {
     Game *game;
     BallState mBallState = BALL_MOVING;
+    int speed = 300;
 public:
     Ball(Game *game) : game(game) {mCollidable = true;}
 
     void update(const double &elapsed) override;
 
     void handleCollision(GameObject *obj) override;
+
+    int getSpeed() const;
+
+    void setSpeed(int speed);
 };
 
 

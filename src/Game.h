@@ -31,7 +31,6 @@ class Game {
     State mGameState = STATE_PLAYING;
     double mScore = 0;
 
-private:
     double mCurrentBestScore;
     TTF_Font *font;
 
@@ -56,6 +55,7 @@ public:
 
     std::unordered_map<SDL_Scancode, bool> keyPressed;
     std::vector<GameObject*> mGameObjects;
+    unsigned int ballLastIncreaseSpeedTime, ballCurrentIncreaseSpeedTime;
 
     /// Start the game loop
     void run();

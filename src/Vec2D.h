@@ -40,10 +40,10 @@ public:
     bool operator>=(const Vec2D &rhs) const;
 
     /// Return magnitude of the vector
-    float magnitude();
+    float magnitude() const;
 
     /// Return a normalized copy of the vector
-    Vec2D normalized();
+    Vec2D normalized() const;
 
     float getX() const;
 

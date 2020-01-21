@@ -11,7 +11,13 @@ void Ball::update(const double &elapsed) {
             game->setGameState(STATE_GAMEOVER);
             break;
         case BALL_MOVING:
-            mPos += mVel * elapsed;
+            if(game->ballCurrentIncreaseSpeedTime > game->ballLastIncreaseSpeedTime + 1000) {
+                speed += 10;
+
+                game->ballLastIncreaseSpeedTime = game->ballCurrentIncreaseSpeedTime;
+            }
+
+            mPos += mVel.normalized() * speed * elapsed;
 
             if(left() <= 0) {
                 mPos.setX(0);
@@ -33,6 +39,14 @@ void Ball::update(const double &elapsed) {
 
     mRect.x = mPos.getX();
     mRect.y = mPos.getY();
+}
+
+int Ball::getSpeed() const {
+    return speed;
+}
+
+void Ball::setSpeed(int speed) {
+    Ball::speed = speed;
 }
 
 void Ball::handleCollision(GameObject *obj) {

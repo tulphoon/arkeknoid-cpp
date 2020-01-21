@@ -42,7 +42,7 @@ public:
 
     void setPos(const Vec2D &mPos);
 
-    const Vec2D &getVel() const;
+    const Vec2D getVel() const;
 
     void setVel(const Vec2D &mVel);
 

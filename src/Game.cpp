@@ -95,7 +95,8 @@ void Game::run() {
     Ball ball(this);
     ball.setRect({0, 0, 10, 10});
     ball.setPos({100, 400});
-    ball.setVel({100, -400});
+    ball.setVel({1, -1});
+    ball.setVel(ball.getVel().normalized() * ball.getSpeed());
     ball.setColor({255, 255, 255, 255});
 
     // Add ball and player to game objects vector
@@ -104,6 +105,7 @@ void Game::run() {
     mGameObjects.push_back(&score);
 
     unsigned int lastTime = SDL_GetTicks();
+    ballLastIncreaseSpeedTime = SDL_GetTicks();
 
     // Run game loop
     while (mGameState != STATE_EXIT) {
@@ -125,6 +127,8 @@ void Game::run() {
                 unsigned int current = SDL_GetTicks();
                 double elapsed = current - lastTime;
                 elapsed = elapsed / 1000;
+
+                ballCurrentIncreaseSpeedTime = SDL_GetTicks();
 
                 handleEvents();
                 update(elapsed);
