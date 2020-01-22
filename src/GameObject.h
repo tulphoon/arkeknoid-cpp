@@ -12,12 +12,6 @@
 #include <unordered_map>
 #include "Vec2D.h"
 
-enum Type {
-    TYPE_PLAYER,
-    TYPE_BALL,
-    TYPE_BLOCK
-};
-
 /**
  * @class GameObject
  * @brief An abstract class which is a base for all objects in the game
@@ -25,14 +19,16 @@ enum Type {
 
 class GameObject {
 protected:
-    Vec2D mPos;
-    Vec2D mVel;
-    SDL_Rect mRect;
-    SDL_Color mColor;
-    bool mCollidable;
+    Vec2D mPos; // position vector
+    Vec2D mVel; // velocity vector
+    SDL_Rect mRect; // destination rectangle on the screen
+    SDL_Color mColor; // color definition
+    bool mCollidable; // is object collidable or not
 public:
     virtual ~GameObject() = default;
+    /// Update the object
     virtual void update(const double &elapsed) = 0;
+    /// Render the object
     virtual void render(SDL_Renderer* renderer);
 
     /// Handle collision between the game objects and another game object

@@ -5,6 +5,7 @@
 #include "GameObject.h"
 
 void GameObject::render(SDL_Renderer *renderer) {
+    // Render the object
     SDL_SetRenderDrawColor(renderer, mColor.r, mColor.g, mColor.b, 255);
     SDL_RenderFillRect(renderer, &mRect);
 }
@@ -66,7 +67,9 @@ int GameObject::height() {
 }
 
 bool GameObject::isColliding(GameObject *obj) {
+    // Check if object is collidable
     if(!obj->mCollidable) return false;
+    // AABB collision detection
     if (right() < obj->left() || left() > obj->right()) return false;
     if (bottom() < obj->top() || top() > obj->bottom()) return false;
 

@@ -14,7 +14,15 @@ class Vec2D {
     float mX;
     float mY;
 public:
+    /**
+     * Default constructor
+     */
     Vec2D() : mX(0), mY(0) {}
+    /**
+     * Construct a Vector using x and y parameters
+     * @param x
+     * @param y
+     */
     Vec2D(float x, float y) : mX(x), mY(y) {}
 
     Vec2D &operator +=(const Vec2D &rhs);

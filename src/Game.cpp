@@ -76,10 +76,12 @@ void Game::run() {
     bestScore.setRect({mWindowWidth / 2 - 100, mWindowHeight / 2});
     bestScore.setColor({61, 135, 255});
 
+    // Create yourScore text and set attributes
     Text yourScore(this, "Your score: " + std::to_string(static_cast<int>(mScore)), font);
     yourScore.setRect({bestScore.getRect().x, bestScore.getRect().y + 50});
     yourScore.setColor({68, 255, 0});
 
+    // Create instruction text and set attributes
     Text instruction(this, "Exit the game, by closing the window", font);
     instruction.setRect({mWindowWidth / 2 - 150, mWindowHeight - 100});
     instruction.setColor({116, 61, 255});
@@ -104,6 +106,7 @@ void Game::run() {
     mGameObjects.push_back(&player);
     mGameObjects.push_back(&score);
 
+    // Time since beginning of the program
     unsigned int lastTime = SDL_GetTicks();
     ballLastIncreaseSpeedTime = SDL_GetTicks();
 
@@ -113,6 +116,7 @@ void Game::run() {
             case STATE_EXIT:
                 break;
 
+            // Displays the gameover screen
             case STATE_GAMEOVER:
                 handleEvents();
 
@@ -123,15 +127,19 @@ void Game::run() {
                 render();
                 break;
 
+            // The game is running
             case STATE_PLAYING:
+                // Calculate time elapsed since last frame was rendered
                 unsigned int current = SDL_GetTicks();
                 double elapsed = current - lastTime;
                 elapsed = elapsed / 1000;
 
+                // Timer for ball speed up
                 ballCurrentIncreaseSpeedTime = SDL_GetTicks();
 
                 handleEvents();
                 update(elapsed);
+                // Update strings
                 score.setString("Score: " + std::to_string(static_cast<int>(mScore)));
                 bestScore.setString("Current Best Score: " + std::to_string(static_cast<int>(mCurrentBestScore)));
                 yourScore.setString("Your score: " + std::to_string(static_cast<int>(mScore)));
@@ -183,13 +191,16 @@ void Game::update(const double &elapsed) {
 }
 
 void Game::render() {
+    // Clean the screen
     SDL_SetRenderDrawColor(mRenderer, 0, 0, 0, 255);
     SDL_RenderClear(mRenderer);
 
+    // Render all gameobjects into the back buffer
     for(auto gameObject : mGameObjects) {
         gameObject->render(mRenderer);
     }
 
+    // Swap the buffer
     SDL_RenderPresent(mRenderer);
 }
 

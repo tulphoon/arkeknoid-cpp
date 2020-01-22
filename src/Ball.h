@@ -9,6 +9,9 @@
 #include "GameObject.h"
 #include "Game.h"
 
+/**
+ * State of the ball
+ */
 enum BallState {
     BALL_LOSE,
     BALL_MOVING
@@ -24,10 +27,22 @@ class Ball : public GameObject {
     BallState mBallState = BALL_MOVING;
     int speed = 300;
 public:
+    /**
+     * Constructor of ball
+     * @param game pointer to Game
+     */
     Ball(Game *game) : game(game) {mCollidable = true;}
 
+    /**
+     * Updates the ball position and velocity
+     * @param elapsed time elapsed since last frame
+     */
     void update(const double &elapsed) override;
 
+    /**
+     * Handle a collision with the given game object
+     * @param obj object that a collision occured with
+     */
     void handleCollision(GameObject *obj) override;
 
     int getSpeed() const;
